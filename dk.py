@@ -16,9 +16,10 @@ writer = csv.DictWriter(csvFile, fieldnames=fieldNames)
 writer.writeheader()
 
 url = "http://www.nytimes.com/interactive/2016/upshot/" + \
-	  "presidential-polls-forecast.html?action=click&contentCollection" + \
-	  "=upshot&region=rank&module=package&version=" + \
-	  "highlights&contentPlacement=2&pgtype=sectionfront&_r=0"
+	  "presidential-polls-forecast.html?action=" + \
+	  "click&contentCollection=upshot&region=rank&module=" + \
+	  "package&version=highlights&contentPlacement=2&pgtype=" + \
+	  "sectionfront&_r=0"
 request = requests.get(url)
 soup = BeautifulSoup(request.content, "html.parser")
 dataSoup = soup.findAll("tr", {"class": "table-row"})
@@ -60,7 +61,8 @@ for stateData in dataSoup:
 url = "http://votamatic.org/2016-current-polling-averages/"
 request = requests.get(url)
 soup = BeautifulSoup(request.content, "html.parser")
-dataSoup = soup.findAll("tr", {"class": re.compile("row-[2-9]|(\d\d)")})
+dataSoup = soup.findAll("tr", \
+		{"class": re.compile("row-[2-9]|(\d\d)")})
 
 for stateData in dataSoup:
 	stateStr = stateData.getText()
