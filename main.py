@@ -48,8 +48,7 @@ def addStateData(ensemble, parties, state, stateData):
             ensemble[state]["{}{}".format("winProb", party)] += winProb
 
     ensemble[state]["numVoteShares"] += int(voteSharesIsWhole)
-    ensemble[state]["numWinProbs"] += int(winProbsIsWhole)
-        
+    ensemble[state]["numWinProbs"] += int(winProbsIsWhole)    
     return ensemble
 
 def processEnsemble(ensemble, parties):
