@@ -17,7 +17,7 @@ for party in parties:
 	fieldNames.append("{}{}".format("VoteShare", party))
 	fieldNames.append("{}{}".format("WinProb", party))
 
-csvFile = open("538.csv", "w", newline="")
+csvFile = open("data/538.csv", "w", newline="")
 writer = csv.DictWriter(csvFile, fieldnames=fieldNames)
 writer.writeheader()
 
