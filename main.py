@@ -1,33 +1,37 @@
 import csv
 
-def constructEnsemble(models, parties):
+def constructEnsemble(parties, dataPath):
     ensemble = {}
+    srcFile = "{}{}".format(dataPath, "ev.csv")
+    csvFile = open(srcFile, "r")
+    reader = csv.DictReader(csvFile)
+
+    for stateData in reader:
+        state = stateData["State"]
+        ensemble[state] = {}
+        ensemble[state]["ev"] = stateData["EV"]
+
+        for party in parties:
+            ensemble[state]["{}{}".format("voteShare", party)] = 0
+            ensemble[state]["{}{}".format("winProb", party)] = 0
+        
+        ensemble[state]["numVoteShares"] = 0
+        ensemble[state]["numWinProbs"] = 0
+
+    return ensemble
+
+def addModels(ensemble, models, parties, dataPath):
 
     for model in models:
-        srcFile = "{}{}{}".format("data/", model, ".csv")
+        srcFile = "{}{}{}".format(dataPath, model, ".csv")
         csvFile = open(srcFile, "r")
         reader = csv.DictReader(csvFile)
 		
         for stateData in reader:
             state = stateData["State"]
-            
-            if state not in ensemble:
-                ensemble = addState(ensemble, state, parties)
-
             ensemble = addStateData(ensemble, parties, state, stateData)
 
     csvFile.close()
-    return ensemble
-
-def addState(ensemble, state, parties):
-    ensemble[state] = {}
-
-    for party in parties:
-        ensemble[state]["{}{}".format("voteShare", party)] = 0                           
-        ensemble[state]["{}{}".format("winProb", party)] = 0
-
-    ensemble[state]["numVoteShares"] = 0
-    ensemble[state]["numWinProbs"] = 0
     return ensemble
 
 def addStateData(ensemble, parties, state, stateData):
@@ -63,5 +67,7 @@ def processEnsemble(ensemble, parties):
 
 models = ["538", "dk", "pec"]
 parties = ["D", "R", "L"]
-ensemble = constructEnsemble(models, parties)
+dataPath = "data/"
+ensemble = constructEnsemble(parties, dataPath)
+ensemble = addModels(ensemble, models, parties, dataPath)
 ensemble = processEnsemble(ensemble, parties)
