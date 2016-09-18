@@ -1,7 +1,5 @@
 from bs4 import BeautifulSoup
-from io import BytesIO
-from PIL import Image
-import csv, pytesseract, re, requests, us
+import csv, re, requests, us
 
 fieldNames = ["State"]
 parties = ["D", "R", "L"]
@@ -14,7 +12,6 @@ for party in parties:
 csvFile = open("data/dk.csv", "w", newline="")
 writer = csv.DictWriter(csvFile, fieldnames=fieldNames)
 writer.writeheader()
-
 url = "http://www.nytimes.com/interactive/2016/upshot/" + \
         "presidential-polls-forecast.html?action=" + \
         "click&contentCollection=upshot&region=rank&module=" + \
@@ -33,13 +30,13 @@ for stateData in dataSoup:
 
     if matches.groups()[0][0] == ">":
         winProb = 99.5
-	else:
+    else:
         winProb = float(matches.groups()[0])
 
-	if matches.groups()[1] == "Dem":
+    if matches.groups()[1] == "Dem":
         winProbD = winProb
         winProbR = 100 - winProb
-	else:
+    else:
         winProbR = winProb
         winProbD = 100 - winProb
 
@@ -47,16 +44,16 @@ for stateData in dataSoup:
     dataDk[state] = {}
     stateObj = us.states.lookup(state.replace(".", ""))
 
-	if stateObj is None:
+    if stateObj is None:
         stateObj = us.states.lookup(state[:-1].replace(".", ""))
 	
     dataDk[state]["State"] = stateObj.abbr
     dataDk[state]["VoteShareD"] = -1
     dataDk[state]["WinProbD"] = winProbD
     dataDk[state]["VoteShareR"] = -1
-	dataDk[state]["WinProbR"] = winProbR
-	dataDk[state]["VoteShareL"] = -1
-	dataDk[state]["WinProbL"] = winProbL
+    dataDk[state]["WinProbR"] = winProbR
+    dataDk[state]["VoteShareL"] = -1
+    dataDk[state]["WinProbL"] = winProbL
 
 url = "http://votamatic.org/2016-current-polling-averages/"
 request = requests.get(url)
@@ -65,18 +62,18 @@ dataSoup = soup.findAll("tr", \
 		{"class": re.compile("row-[2-9]|(\d\d)")})
 
 for stateData in dataSoup:
-	stateStr = stateData.getText()
-	pattern = re.compile("([a-zA-Z ]+)(\d\d.\d)%")
-	matches = pattern.search(stateStr)
-	state = matches.groups()[0]
-	voteShareD = float(matches.groups()[1])
-	voteShareR = 100 - voteShareD
-	voteShareL = 0
-	dataDk[state]["VoteShareD"] = voteShareD
-	dataDk[state]["VoteShareR"] = voteShareR
-	dataDk[state]["VoteShareL"] = voteShareL
+    stateStr = stateData.getText()
+    pattern = re.compile("([a-zA-Z ]+)(\d\d.\d)%")
+    matches = pattern.search(stateStr)
+    state = matches.groups()[0]
+    voteShareD = float(matches.groups()[1])
+    voteShareR = 100 - voteShareD
+    voteShareL = 0
+    dataDk[state]["VoteShareD"] = voteShareD
+    dataDk[state]["VoteShareR"] = voteShareR
+    dataDk[state]["VoteShareL"] = voteShareL
 
 for state in dataDk:
-	writer.writerow(dataDk[state])
+    writer.writerow(dataDk[state])
 
 csvFile.close()
