@@ -10,10 +10,12 @@ def constructEnsemble(parties, dataPath):
         state = stateData["State"]
         ensemble[state] = {}
         ensemble[state]["ev"] = stateData["EV"]
+        ensemble[state]["voteShare"] = {}
+        ensemble[state]["winProb"] = {}
 
         for party in parties:
-            ensemble[state]["{}{}".format("voteShare", party)] = 0
-            ensemble[state]["{}{}".format("winProb", party)] = 0
+            ensemble[state]["voteShare"][party] = 0
+            ensemble[state]["winProb"][party] = 0
         
         ensemble[state]["numVoteShares"] = 0
         ensemble[state]["numWinProbs"] = 0
@@ -45,11 +47,10 @@ def addStateData(ensemble, parties, state, stateData):
         winProbsIsWhole = winProbsIsWhole and winProb >= 0
 
         if voteShare >= 0:
-            ensemble[state]["{}{}".format("voteShare", party)] += \
-                    voteShare
+            ensemble[state]["voteShare"][party] += voteShare
 
         if winProb >= 0:
-            ensemble[state]["{}{}".format("winProb", party)] += winProb
+            ensemble[state]["winProb"][party] += winProb
 
     ensemble[state]["numVoteShares"] += int(voteSharesIsWhole)
     ensemble[state]["numWinProbs"] += int(winProbsIsWhole)    
@@ -58,9 +59,9 @@ def addStateData(ensemble, parties, state, stateData):
 def processEnsemble(ensemble, parties):
     for state in ensemble:
         for party in parties:
-            ensemble[state]["{}{}".format("voteShare", party)] /= \
+            ensemble[state]["voteShare"][party] /= \
                     ensemble[state]["numVoteShares"]
-            ensemble[state]["{}{}".format("winProb", party)] /= \
+            ensemble[state]["winProb"][party] /= \
                     ensemble[state]["numWinProbs"]
 
     return ensemble
