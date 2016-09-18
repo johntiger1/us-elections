@@ -1,12 +1,12 @@
-import csv, json, re, requests
 from bs4 import BeautifulSoup
+import csv, json, re, requests
 
 if __name__ == "__main__":
     url = "http://projects.fivethirtyeight.com/2016-election-forecast/"
     request = requests.get(url)
     soup = BeautifulSoup(request.content, "html.parser")
-    summaryPos = 3
-    dataSoup = soup.findAll("script")[summaryPos]
+    posSummary = 3
+    dataSoup = soup.findAll("script")[posSummary]
     pattern = re.compile("race.summary = (\[.+\])")
     matches = pattern.search(dataSoup.string)
     matchedStr = matches.groups()[0]
@@ -15,23 +15,23 @@ if __name__ == "__main__":
     fieldNames = ["State"]
 
     for party in parties:
-        fieldNames.append("{}{}".format(party, "WinProb"))
-        fieldNames.append("{}{}".format(party, "VoteShare"))
+        fieldNames.append("{}{}".format("WinProb", party))
+        fieldNames.append("{}{}".format("VoteShare", party))
 
     csvFile = open("538.csv", "w", newline="")
     writer = csv.DictWriter(csvFile, fieldnames=fieldNames)
     writer.writeheader()
 
-    for dataState in dataJson:
-        state = dataState["state"]
+    for stateSoup in dataJson:
+        state = stateSoup["state"]
         row = {"State": state}
     
         for party in parties:
-            model = dataState["latest"][party]["models"]["plus"]
+            model = stateSoup["latest"][party]["models"]["plus"]
             voteShare = model["forecast"]
             winProb = model["winprob"]
-            row["{}{}".format(party, "VoteShare")] = voteShare
-            row["{}{}".format(party, "WinProb")] = winProb
+            row["{}{}".format("VoteShare", party)] = voteShare
+            row["{}{}".format("WinProb", party)] = winProb
 
         writer.writerow(row)
 
