@@ -9,13 +9,13 @@ def constructEnsemble(parties, dataPath):
     for stateData in reader:
         state = stateData["State"]
         ensemble[state] = {}
-        ensemble[state]["ev"] = stateData["EV"]
-        ensemble[state]["voteShare"] = {}
-        ensemble[state]["winProb"] = {}
+        ensemble[state]["ev"] = int(stateData["EV"])
+        ensemble[state]["voteShares"] = {}
+        ensemble[state]["winProbs"] = {}
 
         for party in parties:
-            ensemble[state]["voteShare"][party] = 0
-            ensemble[state]["winProb"][party] = 0
+            ensemble[state]["voteShares"][party] = 0
+            ensemble[state]["winProbs"][party] = 0
         
         ensemble[state]["numVoteShares"] = 0
         ensemble[state]["numWinProbs"] = 0
@@ -47,10 +47,10 @@ def addStateData(ensemble, parties, state, stateData):
         winProbsIsWhole = winProbsIsWhole and winProb >= 0
 
         if voteShare >= 0:
-            ensemble[state]["voteShare"][party] += voteShare
+            ensemble[state]["voteShares"][party] += voteShare
 
         if winProb >= 0:
-            ensemble[state]["winProb"][party] += winProb
+            ensemble[state]["winProbs"][party] += winProb
 
     ensemble[state]["numVoteShares"] += int(voteSharesIsWhole)
     ensemble[state]["numWinProbs"] += int(winProbsIsWhole)    
@@ -59,16 +59,40 @@ def addStateData(ensemble, parties, state, stateData):
 def processEnsemble(ensemble, parties):
     for state in ensemble:
         for party in parties:
-            ensemble[state]["voteShare"][party] /= \
+            ensemble[state]["voteShares"][party] /= \
                     ensemble[state]["numVoteShares"]
-            ensemble[state]["winProb"][party] /= \
+            ensemble[state]["winProbs"][party] /= \
                     ensemble[state]["numWinProbs"]
 
     return ensemble
+
+def summarize(ensemble, parties):
+    summary = {}
+    fields = ["evProb", "evDet", "voteShares", "winProbs"]
+
+    for field in fields:
+        summary[field] = {key: 0 for key in parties}
+
+    for state in ensemble:
+        if state != "US":
+            stateEv = ensemble[state]["ev"]
+
+            for party in parties:
+                winProbParty = ensemble[state]["winProbs"][party]
+                summary["evProb"][party] += (winProbParty / 100) * stateEv
+            
+            winProbs = ensemble[state]["winProbs"]
+            stateFav = max(winProbs, key=winProbs.get)
+            summary["evDet"][stateFav] += stateEv
+
+    summary["voteShares"] = ensemble["US"]["voteShares"]
+    summary["winProbs"] = ensemble["US"]["winProbs"]
+    return summary
 
 models = ["538", "dk", "pec"]
 parties = ["D", "R", "L"]
 dataPath = "data/"
 ensemble = constructEnsemble(parties, dataPath)
 ensemble = addModels(ensemble, models, parties, dataPath)
+summary = summarize(ensemble, parties)
 ensemble = processEnsemble(ensemble, parties)
