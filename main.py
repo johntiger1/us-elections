@@ -92,16 +92,15 @@ def summarize(ensemble, parties):
 
 def toDict(ensemble):
     ensembleDict = {"states": [], "parties": [],\
-            "voteShares": [], "winProbs": []}
+            "ev": [], "voteShares": [], "winProbs": []}
 
     for state in ensemble:
         if state != "US":
             voteShares = ensemble[state]["voteShares"]
             winProbs = ensemble[state]["winProbs"]
             stateFav = max(winProbs, key=winProbs.get)
-            stateData = [state, stateFav, \
-                    voteShares[stateFav], winProbs[stateFav]]
             ensembleDict["states"].append(state)
+            ensembleDict["ev"].append(ensemble[state]["ev"])
             ensembleDict["parties"].append(stateFav)
             ensembleDict["voteShares"].append(voteShares[stateFav])
             ensembleDict["winProbs"].append(winProbs[stateFav])

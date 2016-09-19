@@ -3,21 +3,36 @@ import matplotlib.pyplot
 def plotEnsemble(ensembleDict):
     plt = matplotlib.pyplot
     fig, ax = plt.subplots()
-    n = len(ensembleDict["parties"])
-    voteSharesD = [ensembleDict["voteShares"][i] for i in range(n) \
-            if ensembleDict["parties"][i] == "D"]
-    winProbsD = [ensembleDict["winProbs"][i] for i in range(n) \
-            if ensembleDict["parties"][i] == "D"]
-    voteSharesR = [100 - ensembleDict["voteShares"][i] for i in range(n) \
-            if ensembleDict["parties"][i] == "R"]
-    winProbsR = [100 - ensembleDict["winProbs"][i] for i in range(n) \
-            if ensembleDict["parties"][i] == "R"]
-    size = 50
-    plt.scatter(voteSharesD, winProbsD, s=size)
-    plt.scatter(voteSharesR, winProbsR, s=size)
+    xyData = constructXY(ensembleDict)
+    size = 200
+    colorD = [x / 255 for x in [30, 144, 255]]
+    colorR = [x / 255 for x in [220, 20, 60]]
+    scatterD = plt.scatter(xyData["voteSharesD"], xyData["winProbsD"], \
+            s=xyData["sizeD"], c=colorD, alpha=0.5, label="Democrat Ahead")
+    scatterR = plt.scatter(xyData["voteSharesR"], xyData["winProbsR"], \
+            s=xyData["sizeR"], c=colorR, alpha=0.5, label="Republican Ahead")
     plt, ax = constructLabels(plt, ax)
-    plt.show()
+    plt.legend(handles=[scatterD, scatterR], loc=4)
+    plt.savefig("plot.png")
     plt.close(fig)
+
+def constructXY(ensembleDict):
+    n = len(ensembleDict["parties"])
+    sizeMult = 20
+    xyData = {}
+    xyData["voteSharesD"] = [ensembleDict["voteShares"][i] \
+            for i in range(n) if ensembleDict["parties"][i] == "D"]
+    xyData["winProbsD"] = [ensembleDict["winProbs"][i] \
+            for i in range(n) if ensembleDict["parties"][i] == "D"]
+    xyData["sizeD"] = [sizeMult * ensembleDict["ev"][i] \
+            for i in range(n) if ensembleDict["parties"][i] == "D"]
+    xyData["voteSharesR"] = [100 - ensembleDict["voteShares"][i] \
+            for i in range(n) if ensembleDict["parties"][i] == "R"]
+    xyData["winProbsR"] = [100 - ensembleDict["winProbs"][i] \
+            for i in range(n) if ensembleDict["parties"][i] == "R"]
+    xyData["sizeR"] = [sizeMult * ensembleDict["ev"][i] \
+            for i in range(n) if ensembleDict["parties"][i] == "R"]
+    return xyData
 
 def constructLabels(plt, ax):
     plt.xlim([15, 85])
