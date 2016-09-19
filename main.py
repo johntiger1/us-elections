@@ -1,3 +1,4 @@
+from plot import plotEnsemble
 import csv
 
 def constructEnsemble(parties, dataPath):
@@ -89,10 +90,30 @@ def summarize(ensemble, parties):
     summary["winProbs"] = ensemble["US"]["winProbs"]
     return summary
 
+def toDict(ensemble):
+    ensembleDict = {"states": [], "parties": [],\
+            "voteShares": [], "winProbs": []}
+
+    for state in ensemble:
+        if state != "US":
+            voteShares = ensemble[state]["voteShares"]
+            winProbs = ensemble[state]["winProbs"]
+            stateFav = max(winProbs, key=winProbs.get)
+            stateData = [state, stateFav, \
+                    voteShares[stateFav], winProbs[stateFav]]
+            ensembleDict["states"].append(state)
+            ensembleDict["parties"].append(stateFav)
+            ensembleDict["voteShares"].append(voteShares[stateFav])
+            ensembleDict["winProbs"].append(winProbs[stateFav])
+
+    return ensembleDict
+
 models = ["538", "dk", "pec"]
 parties = ["D", "R", "L"]
 dataPath = "data/"
 ensemble = constructEnsemble(parties, dataPath)
 ensemble = addModels(ensemble, models, parties, dataPath)
-summary = summarize(ensemble, parties)
 ensemble = processEnsemble(ensemble, parties)
+summary = summarize(ensemble, parties)
+ensembleDict = toDict(ensemble)
+plotEnsemble(ensembleDict)
