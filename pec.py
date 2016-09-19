@@ -54,7 +54,7 @@ dataSoup = soup.find("li", {"style": \
         "color: black; float: none"})
 forecastData = dataSoup.getText()
 pattern = re.compile("(Clinton|Trump) Nov. win probability: " +\
-        "random drift (\d\d)%, Bayesian 87%")
+        "random drift (\d\d)%, Bayesian \d\d%")
 matches = pattern.search(forecastData)
 winProb = float(matches.groups()[1])
 
