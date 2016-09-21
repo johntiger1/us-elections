@@ -7,7 +7,7 @@ This is an ensemble model for predicting U.S. presidential elections.  The ensem
 
 ###PEC###
 
-Designed by neuroscientist and psephologist Sam Wang, the PEC model is the oldest of the three and is purely poll-based.  To capture a snapshot of state vote shares, it uses state polls.  Similarly for a snapshot of national vote shares.  Likely voter polls are favoured over registered voter polls if a pollster releases both.  To capture state win probabilities, PEC applies the t-distribution on a median of state polls with an estimated standard error of the median.  To calculate state win probabilities and the chance of winning the presidency on Election Day, a random walk is performed between now and Election Day.
+Designed by neuroscientist and psephologist Sam Wang, the PEC model is the oldest of the three and is purely poll-based.  It starts by capturing a snapshot of state vote shares with the median of state polls.  Similarly for a snapshot of national vote shares.  Likely voter polls are favoured over registered voter polls if a pollster releases both.  After calculating state vote shares, it estimates state win probabilities and the chance of winning the presidency on Election Day with a random walk.
 
 ###Votamatic###
 
