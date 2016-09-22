@@ -13,6 +13,6 @@ Built by neuroscientist and psephologist Sam Wang, PEC is the oldest of the thre
 
 ###Votamatic###
 
-Votamatic is the newest of the three models and is the work of political scientist Drew Linzer.  It is a Bayesian forecasting model.  Its priors are a blend of economic factors, incumbent Presidential approval ratings and duration of incumbent White House control.  The model is updated with state polls, whose weight increases the closer the forecast date is to Election Day.  To calculate state vote shares and win probabilities on Election Day, a reverse random-walk is performed from Election Day to the forecast date with starting positions and daily rates of change of the walk being estimated via the Markov chain Monte Carlo method.  Unlike other models, Votematic does not forecast national vote shares. 
+Votamatic is the newest of the three models and is the work of political scientist Drew Linzer.  It is a Bayesian forecasting model.  Its priors are a blend of economic factors, incumbent Presidential approval ratings and duration of incumbent White House control.  The model is updated with state polls, whose weight increases the closer the forecast date is to Election Day.  To calculate state vote shares and win probabilities on Election Day, a reverse random walk is performed from Election Day to the forecast date with starting positions and daily rates of change of the walk being estimated via the Markov chain Monte Carlo method.  Unlike other models, Votematic does not forecast national vote shares. 
 
 ###How They Are Combined###
