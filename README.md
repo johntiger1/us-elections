@@ -9,7 +9,7 @@ The 538 Polls-Plus model is designed by statistician and journalist Nate Silver.
 
 ###PEC###
 
-Built by neuroscientist and psephologist Sam Wang, PEC is the oldest of the three models and is the only model that is purely poll-based.  Its procedure is as follows.  PEC starts by capturing a snapshot of each state's margin of victory with the median of state polls.  Similarly for a snapshot of national margin victory.  Likely voter polls are favoured over registered voter polls if a pollster releases both.  After estimating state margin of victories, it calculates state and presidential win probabilities on Election Day with a random walk starting from the forecast date.
+Built by neuroscientist and psephologist Sam Wang, PEC is the oldest of the three models and is the only model that is purely poll-based.  Its procedure is as follows.  PEC starts by capturing a snapshot of each state's margin of victory with the median of state polls.  Similarly for a snapshot of national margin victory.  Likely voter polls are favoured over registered voter polls if a pollster releases both.  After estimating state margin of victories, PEC calculates state and presidential win probabilities on Election Day with a random walk starting from the forecast date.
 
 ###Votamatic###
 
