@@ -5,7 +5,7 @@ This is an ensemble model for predicting U.S. presidential elections.  The ensem
 
 ###538###
 
-The 538 Polls-Plus model is designed by statistician and journalist Nate Silver.  It is unique in that it is only member of the ensemble to model third-party performance.  To forecast state vote shares, the model calculates a weighted polling average for each state, which it combines with demographics and economic data.  Adjustments are made to individual polls based on house effects, methodology and track records of polling firms.  To forecast state and presidential win probabilities on Election Day, the model simulates election outcomes with seperate regional and national error terms.  The error terms decrease the closer the forecast date is to Election Day and the fewer the share of undecided and third-party votes.
+The 538 Polls-Plus model is designed by statistician and journalist Nate Silver.  It is unique in that it is only member of the ensemble to model third-party performance.  To forecast state vote shares, the model calculates a weighted polling average for each state, which it then combines with demographics and economic data.  Adjustments are made to individual polls based on house effects, methodology and track records of polling firms.  To forecast state and presidential win probabilities on Election Day, the model simulates election outcomes with seperate regional and national error terms.  The error terms decrease the closer the forecast date is to Election Day and the fewer the share of undecided and third-party votes.
 
 ###PEC###
 
