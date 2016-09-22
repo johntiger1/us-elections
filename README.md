@@ -5,12 +5,14 @@ This is an ensemble model for predicting U.S. presidential elections.  The ensem
 
 ###538###
 
+
+
 ###PEC###
 
 Designed by neuroscientist and psephologist Sam Wang, PEC is the oldest of the three models and is purely poll-based.  Its procedure is as follows.  PEC starts by capturing a snapshot of each state's margin of victory with the median of state polls.  Similarly for a snapshot of national margin victory.  Likely voter polls are favoured over registered voter polls if a pollster releases both.  After estimating state margin of victories, it calculates state and presidential win probabilities on Election Day with a random walk starting from the forecast date.
 
 ###Votamatic###
 
-Votamatic is the newest of the three models and is the work of political scientist Drew Linzer.  It is a Bayesian forecasting model with priors being a blend of economic factors, incumbent Presidential approval ratings and duration of incumbent White House control.  The model is updated with state polls.  Confidence in state polls increases the closer the forecast date is to Election Day.  To calculate state vote shares and win probabilities on Election Day, a reverse random-walk is performed from Election Day to the forecast date.  The starting positions and daily rates of change of the walk are estimated via the Markov chain Monte Carlo method.  Unlike other models, Votematic does not forecast national vote shares. 
+Votamatic is the newest of the three models and is the work of political scientist Drew Linzer.  It is a Bayesian forecasting model.  Its priors are a blend of economic factors, incumbent Presidential approval ratings and duration of incumbent White House control.  The model is updated with state polls, whose weight in the forecasts increase the closer the forecast date is to Election Day.  To calculate state vote shares and win probabilities on Election Day, a reverse random-walk is performed from Election Day to the forecast date with the starting positions and daily rates of change of the walk being estimated via the Markov chain Monte Carlo method.  Unlike other models, Votematic does not forecast national vote shares. 
 
 ###How They Are Combined###
