@@ -28,7 +28,9 @@ for stateData in dataSoup:
     pattern = re.compile("(>?\d\d)%\s+(Dem|Rep)")
     matches = pattern.search(forecastData)
 
-    if matches.groups()[0][0] == ">":
+    if matches is None:
+        continue
+    elif matches.groups()[0][0] == ">":
         winProb = 99.5
     else:
         winProb = float(matches.groups()[0])
