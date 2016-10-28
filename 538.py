@@ -4,7 +4,7 @@ import csv, json, re, requests
 url = "http://projects.fivethirtyeight.com/2016-election-forecast/"
 response = requests.get(url)
 soup = BeautifulSoup(response.content, "html.parser")
-posSummary = 7
+posSummary = 9
 dataSoup = soup.findAll("script")[posSummary]
 pattern = re.compile("race.summary = (\[.+\])")
 matches = pattern.search(dataSoup.string)

@@ -20,7 +20,7 @@ url = "http://www.nytimes.com/interactive/2016/upshot/" + \
 request = requests.get(url)
 soup = BeautifulSoup(request.content, "html.parser")
 dataSoup = soup.findAll("tr", {"class": "table-row"})
-posDk = 3
+posDk = 6
 
 for stateData in dataSoup:
     state = stateData.td.span.getText()
@@ -48,7 +48,7 @@ for stateData in dataSoup:
 
     if stateObj is None:
         stateObj = us.states.lookup(state[:-1].replace(".", ""))
-	
+
     dataDk[state]["State"] = stateObj.abbr
     dataDk[state]["VoteShareD"] = -1
     dataDk[state]["WinProbD"] = winProbD

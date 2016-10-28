@@ -9,6 +9,7 @@ stateI = 4
 winProbI = 5
 fieldNames = ["State"]
 parties = ["D", "R", "L"]
+pattern = re.compile("(M|N)\d")
 
 for party in parties:
     fieldNames.append("{}{}".format("VoteShare", party))
@@ -20,7 +21,13 @@ writer.writeheader()
 
 for stateData in reader:
     row = {}
-    row["State"] = stateData[stateI]
+    state = stateData[stateI]
+    matches = pattern.search(state)
+
+    if matches is not None:
+        state = state[0] + "E" + state[1]
+    
+    row["State"] = state
     voteDiff = float(stateData[voteDiffI])
     row["VoteShareD"] = 50 + voteDiff / 2
     row["WinProbD"] = float(stateData[winProbI])
