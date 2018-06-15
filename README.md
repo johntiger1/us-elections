@@ -3,7 +3,7 @@
 
 This is an ensemble model for predicting U.S. presidential elections.  The ensemble consists of three statistical models that performed very well historically: 538, Princeton Election Consortium (PEC) and Votamatic.  Each of those models correctly predicted the winner of at least 49 out of 50 states in 2012.  We briefly review each model and discuss how they are combined into a single prediction. 
 
-###538###
+### 538 ###
 
 The [538 Polls-Plus model](http://projects.fivethirtyeight.com/2016-election-forecast/?ex_cid=rrpromo#plus) is designed by statistician and journalist Nate Silver.  It is unique in that it is only member of the ensemble to model third-party performance.  To forecast state vote shares, the model calculates a weighted polling average for each state, which it combines with demographics and economic data.  Adjustments are made to individual polls based on house effects, methodology and track records of polling firms.  To forecast state and presidential win probabilities on Election Day, the model simulates election outcomes with seperate regional and national error terms.  The error terms decrease the closer the forecast date is to Election Day and the fewer the share of undecided and third-party votes.
 
